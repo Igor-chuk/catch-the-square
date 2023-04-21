@@ -18,15 +18,19 @@
         cursor: pointer;
       }
 
-      #colorButton {
+      #coin {
+        width: 20px;
+        height: 20px;
+        background-color: yellow;
+        position: absolute;
+        top: -20px;
+        left: -20px;
+        border-radius: 50%;
+      }
+
+      #score {
         margin-top: 10px;
-        padding: 5px 10px;
-        font-size: 16px;
-        background-color: blue;
-        color: white;
-        border: none;
-        border-radius: 5px;
-        cursor: pointer;
+        font-size: 24px;
       }
     </style>
   </head>
@@ -34,12 +38,14 @@
     <h1>Игра "Нажми на квадрат!"</h1>
     <div id="game">
       <div id="square"></div>
+      <div id="coin"></div>
     </div>
-    <button id="colorButton">Изменить цвет</button>
+    <div id="score">Монетки: 0</div>
     <script>
       const square = document.getElementById('square');
       const game = document.getElementById('game');
-      const colorButton = document.getElementById('colorButton');
+      const coin = document.getElementById('coin');
+      const score = document.getElementById('score');
 
       let squareX = Math.floor(Math.random() * 450);
       let squareY = Math.floor(Math.random() * 450);
@@ -47,26 +53,50 @@
       square.style.top = squareY + 'px';
       square.style.left = squareX + 'px';
 
-      function changeColor() {
-        const colors = ['red', 'blue', 'green', 'yellow', 'purple'];
-        const newColor = colors[Math.floor(Math.random() * colors.length)];
-        square.style.backgroundColor = newColor;
+      let coinX = Math.floor(Math.random() * 450);
+      let coinY = Math.floor(Math.random() * 450);
+
+      coin.style.top = coinY + 'px';
+      coin.style.left = coinX + 'px';
+
+      let scoreCount = 0;
+
+      function changeCoinPosition() {
+        coinX = Math.floor(Math.random() * 450);
+        coinY = Math.floor(Math.random() * 450);
+
+        coin.style.top = coinY + 'px';
+        coin.style.left = coinX + 'px';
       }
 
-      colorButton.addEventListener('click', () => {
-        changeColor();
-      });
+      function incrementScore() {
+        scoreCount += 1;
+        score.innerHTML = 'Монетки: ' + scoreCount;
+      }
 
-      setInterval(() => {
-        let newSquareX = Math.floor(Math.random() * 450);
-        let newSquareY = Math.floor(Math.random() * 450);
+      function checkCollision() {
+        if (
+          squareX <= coinX + 20 &&
+          squareX + 50 >= coinX &&
+          squareY <= coinY + 20 &&
+          squareY + 50 >= coinY
+        ) {
+          incrementScore();
+          changeCoinPosition();
+        }
+      }
 
-        squareX = newSquareX;
-        squareY = newSquareY;
+      function moveSquare() {
+        squareX = Math.floor(Math.random() * 450);
+        squareY = Math.floor(Math.random() * 450);
 
         square.style.top = squareY + 'px';
         square.style.left = squareX + 'px';
-      }, 250);
+
+        checkCollision();
+      }
+
+      setInterval(moveSquare, 500);
 
       square.addEventListener('click', () => {
         alert('Вы победили!');
