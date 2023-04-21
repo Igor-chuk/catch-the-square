@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Пример игры</title>
+    <style>
+      #game {
+        width: 500px;
+        height: 500px;
+        border: 1px solid black;
+        position: relative;
+      }
+
+      #square {
+        width: 50px;
+        height: 50px;
+        background-color: red;
+        position: absolute;
+        cursor: pointer;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Игра "Нажми на квадрат!"</h1>
+    <div id="game">
+      <div id="square"></div>
+    </div>
+    <script>
+      const square = document.getElementById('square');
+      const game = document.getElementById('game');
+
+      let squareX = Math.floor(Math.random() * 450);
+      let squareY = Math.floor(Math.random() * 450);
+
+      square.style.top = squareY + 'px'
+      square.style.left = squareX + 'px';
+
+      setInterval(() => {
+        let newSquareX = Math.floor(Math.random() * 450);
+        let newSquareY = Math.floor(Math.random() * 450);
+
+        squareX = newSquareX;
+        squareY = newSquareY;
+
+        square.style.top = squareY + 'px';
+        square.style.left = squareX + 'px';
+      }, 250);
+
+      square.addEventListener('click', () => {
+        alert('Вы победили🎉!');
+      });
+    </script>
+  </body>
+</html>
