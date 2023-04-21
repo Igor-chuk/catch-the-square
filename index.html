@@ -17,6 +17,17 @@
         position: absolute;
         cursor: pointer;
       }
+
+      #colorButton {
+        margin-top: 10px;
+        padding: 5px 10px;
+        font-size: 16px;
+        background-color: blue;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+      }
     </style>
   </head>
   <body>
@@ -24,15 +35,27 @@
     <div id="game">
       <div id="square"></div>
     </div>
+    <button id="colorButton">Изменить цвет</button>
     <script>
       const square = document.getElementById('square');
       const game = document.getElementById('game');
+      const colorButton = document.getElementById('colorButton');
 
       let squareX = Math.floor(Math.random() * 450);
       let squareY = Math.floor(Math.random() * 450);
 
-      square.style.top = squareY + 'px'
+      square.style.top = squareY + 'px';
       square.style.left = squareX + 'px';
+
+      function changeColor() {
+        const colors = ['red', 'blue', 'green', 'yellow', 'purple'];
+        const newColor = colors[Math.floor(Math.random() * colors.length)];
+        square.style.backgroundColor = newColor;
+      }
+
+      colorButton.addEventListener('click', () => {
+        changeColor();
+      });
 
       setInterval(() => {
         let newSquareX = Math.floor(Math.random() * 450);
@@ -46,7 +69,7 @@
       }, 250);
 
       square.addEventListener('click', () => {
-        alert('Вы победили🎉!');
+        alert('Вы победили!');
       });
     </script>
   </body>
