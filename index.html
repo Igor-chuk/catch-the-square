@@ -1,113 +1,32 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <title>Пример игры</title>
-    <style>
-      #game {
-        width: 500px;
-        height: 500px;
-        border: 1px solid black;
-        position: relative;
-      }
-
-      #square {
-        width: 50px;
-        height: 50px;
-        background-color: red;
-        position: absolute;
-        cursor: pointer;
-      }
-
-      #coin {
-        width: 20px;
-        height: 20px;
-        background-color: yellow;
-        position: absolute;
-        top: -20px;
-        left: -20px;
-        border-radius: 50%;
-      }
-
-      #score {
-        margin-top: 10px;
-        font-size: 24px;
-      }
-    </style>
-  </head>
-  <body>
-    <h1>Игра "Нажми на квадрат!"</h1>
-    <div id="game">
-      <div id="square"></div>
-      <div id="coin"></div>
-    </div>
-    <div id="score">Монетки: 0</div>
-    <script>
-      const square = document.getElementById('square');
-      const game = document.getElementById('game');
-      const coin = document.getElementById('coin');
-      const score = document.getElementById('score');
-
-      let squareX = Math.floor(Math.random() * 450);
-      let squareY = Math.floor(Math.random() * 450);
-
-      square.style.top = squareY + 'px';
-      square.style.left = squareX + 'px';
-
-      let coinX = Math.floor(Math.random() * 450);
-      let coinY = Math.floor(Math.random() * 450);
-
-      coin.style.top = coinY + 'px';
-      coin.style.left = coinX + 'px';
-
-      let scoreCount = 0;
-      let speed = 500;
-
-      function changeCoinPosition() {
-        coinX = Math.floor(Math.random() * 450);
-        coinY = Math.floor(Math.random() * 450);
-
-        coin.style.top = coinY + 'px';
-        coin.style.left = coinX + 'px';
-      }
-
-      function incrementScore(amount) {
-        scoreCount += amount;
-        score.innerHTML = 'Монетки: ' + scoreCount;
-
-        if (scoreCount >= 50) {
-          speed = 500 / 1.5;
-          scoreCount -= 50;
-          score.innerHTML = 'Монетки: ' + scoreCount;
-        }
-      }
-
-      function checkCollision() {
-        if (
-          squareX <= coinX + 20 &&
-          squareX + 50 >= coinX &&
-          squareY <= coinY + 20 &&
-          squareY + 50 >= coinY
-        ) {
-          incrementScore(50);
-          changeCoinPosition();
-        }
-      }
-
-      function moveSquare() {
-        squareX = Math.floor(Math.random() * 450);
-        squareY = Math.floor(Math.random() * 450);
-
-        square.style.top = squareY + 'px';
-        square.style.left = squareX + 'px';
-
-        checkCollision();
-      }
-
-      setInterval(moveSquare, speed);
-
-      square.addEventListener('click', () => {
-        incrementScore(100);
-        alert('Вы победили!');
-      });
-    </script>
-  </body>
+<head>
+	<title>Угадай число</title>
+	<script>
+		function guessNumber() {
+			// Генерим случайное число от 1 до 100
+			const randomNumber = Math.floor(Math.random() * 100) + 1;
+			let attemptNumber = 0;
+			
+			while (true) {
+				// Получаем число, введенное пользователем
+				const userNumber = parseInt(prompt("Введите число от 1 до 100:"));
+				attemptNumber++;
+				if (userNumber === randomNumber) {
+					alert(`Вы угадали число ${randomNumber} за ${attemptNumber} попыток!`);
+					break;
+				} else if (userNumber < randomNumber) {
+					alert("Загаданное число больше.");
+				} else {
+					alert("Загаданное число меньше.");
+				}
+			}
+		}
+	</script>
+</head>
+<body>
+	<h1>Угадай число</h1>
+	<p>Компьютер загадывает число от 1 до 100, а вы должны угадать его за как можно меньшее количество попыток.</p>
+	<button onclick="guessNumber()">Новая игра</button>
+</body>
+</html>
