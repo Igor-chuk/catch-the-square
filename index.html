@@ -60,6 +60,7 @@
       coin.style.left = coinX + 'px';
 
       let scoreCount = 0;
+      let speed = 500;
 
       function changeCoinPosition() {
         coinX = Math.floor(Math.random() * 450);
@@ -69,9 +70,15 @@
         coin.style.left = coinX + 'px';
       }
 
-      function incrementScore() {
-        scoreCount += 1;
+      function incrementScore(amount) {
+        scoreCount += amount;
         score.innerHTML = 'Монетки: ' + scoreCount;
+
+        if (scoreCount >= 50) {
+          speed = 500 / 1.5;
+          scoreCount -= 50;
+          score.innerHTML = 'Монетки: ' + scoreCount;
+        }
       }
 
       function checkCollision() {
@@ -81,7 +88,7 @@
           squareY <= coinY + 20 &&
           squareY + 50 >= coinY
         ) {
-          incrementScore();
+          incrementScore(50);
           changeCoinPosition();
         }
       }
@@ -96,11 +103,11 @@
         checkCollision();
       }
 
-      setInterval(moveSquare, 500);
+      setInterval(moveSquare, speed);
 
       square.addEventListener('click', () => {
+        incrementScore(100);
         alert('Вы победили!');
       });
     </script>
   </body>
-</html>
